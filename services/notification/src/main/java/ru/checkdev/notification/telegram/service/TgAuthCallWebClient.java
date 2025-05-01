@@ -47,7 +47,7 @@ public class TgAuthCallWebClient {
      * @return Mono<Object>
      */
     @Retry(name = "tgAuthRetry")
-    @CircuitBreaker(name = "tgAuthCircuitBreaker", fallbackMethod = "fallbackPost") // Применение Circuit Breaker
+    @CircuitBreaker(name = "tgAuthCircuitBreaker", fallbackMethod = "fallbackPost")
     public Mono<Object> doPost(String url, PersonDTO personDTO) {
         return webClient
                 .post()
