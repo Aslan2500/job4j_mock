@@ -28,8 +28,8 @@ public class TgAuthCallWebClient {
      * @param url URL http
      * @return Mono<Person>
      */
-    @Retry(name = "tgAuthRetry") // Применение Retry
-    @CircuitBreaker(name = "tgAuthCircuitBreaker", fallbackMethod = "fallbackGet") // Применение Circuit Breaker
+    @Retry(name = "tgAuthRetry")
+    @CircuitBreaker(name = "tgAuthCircuitBreaker", fallbackMethod = "fallbackGet")
     public Mono<PersonDTO> doGet(String url) {
         return webClient
                 .get()
@@ -46,7 +46,7 @@ public class TgAuthCallWebClient {
      * @param personDTO Body PersonDTO.class
      * @return Mono<Object>
      */
-    @Retry(name = "tgAuthRetry") // Применение Retry
+    @Retry(name = "tgAuthRetry")
     @CircuitBreaker(name = "tgAuthCircuitBreaker", fallbackMethod = "fallbackPost") // Применение Circuit Breaker
     public Mono<Object> doPost(String url, PersonDTO personDTO) {
         return webClient
@@ -58,15 +58,13 @@ public class TgAuthCallWebClient {
                 .doOnError(err -> log.error("API not found: {}", err.getMessage()));
     }
 
-    // Fallback метод для GET
     public Mono<PersonDTO> fallbackGet(String url, Throwable throwable) {
         log.error("GET request failed, fallback triggered: {}", throwable.getMessage());
-        return Mono.empty(); // Или возвращайте какой-то запасной ответ
+        return Mono.empty();
     }
 
-    // Fallback метод для POST
     public Mono<Object> fallbackPost(String url, PersonDTO personDTO, Throwable throwable) {
         log.error("POST request failed, fallback triggered: {}", throwable.getMessage());
-        return Mono.empty(); // Или возвращайте какой-то запасной ответ
+        return Mono.empty();
     }
 }

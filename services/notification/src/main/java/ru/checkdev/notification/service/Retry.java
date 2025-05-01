@@ -36,7 +36,7 @@ public class Retry {
         Act<String> permitExc = () -> {
             throw new Exception("Error");
         };
-        var retry = new Retry(3, 1000); // 1 секунда задержки
+        var retry = new Retry(3, 1000);
         var result = retry.exec(permitExc, "DefVal");
         System.out.println(result);
     }
