@@ -26,7 +26,7 @@ public class SubscribeTopicServiceTest {
     private TgRun tgRun;
 
     @MockBean
-    private TgAuthCallWebClient TgAuthCallWebClient;
+    private TgAuthCallWebClient tgAuthCallWebClient;
 
     @MockBean
     private TemplateController templateController;

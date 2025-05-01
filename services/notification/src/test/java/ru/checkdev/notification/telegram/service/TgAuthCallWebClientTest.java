@@ -38,11 +38,12 @@ class TgAuthCallWebClientTest {
     @Mock
     private WebClient.ResponseSpec responseMock;
 
-    private TgAuthCallWebClient TgAuthCallWebClient;
+    private TgAuthCallWebClient tgAuthCallWebClient;
 
     @BeforeEach
     void setUp() {
-        TgAuthCallWebClient = new TgAuthCallWebClient(URL);
+        tgAuthCallWebClient = new TgAuthCallWebClient(URL);
+        tgAuthCallWebClient.setWebClient(webClientMock);
     }
 
     @Test
@@ -58,7 +59,7 @@ class TgAuthCallWebClientTest {
         when(requestHeadersUriMock.uri("/person/" + personId)).thenReturn(requestHeadersMock);
         when(requestHeadersMock.retrieve()).thenReturn(responseMock);
         when(responseMock.bodyToMono(PersonDTO.class)).thenReturn(Mono.just(personDto));
-        PersonDTO actual = TgAuthCallWebClient.doGet("/person/" + personId).block();
+        PersonDTO actual = tgAuthCallWebClient.doGet("/person/" + personId).block();
         assertThat(actual).isEqualTo(personDto);
     }
 
@@ -69,7 +70,7 @@ class TgAuthCallWebClientTest {
         when(requestHeadersUriMock.uri("/person/" + personId)).thenReturn(requestHeadersMock);
         when(requestHeadersMock.retrieve()).thenReturn(responseMock);
         when(responseMock.bodyToMono(PersonDTO.class)).thenReturn(Mono.error(new Throwable("Error")));
-        assertThatThrownBy(() -> TgAuthCallWebClient.doGet("/person/" + personId).block())
+        assertThatThrownBy(() -> tgAuthCallWebClient.doGet("/person/" + personId).block())
                 .isInstanceOf(Throwable.class)
                 .hasMessageContaining("Error");
     }
@@ -87,7 +88,7 @@ class TgAuthCallWebClientTest {
         when(requestBodyMock.bodyValue(personDto)).thenReturn(requestHeadersMock);
         when(requestHeadersMock.retrieve()).thenReturn(responseMock);
         when(responseMock.bodyToMono(Object.class)).thenReturn(Mono.just(personDto));
-        Mono<Object> objectMono = TgAuthCallWebClient.doPost("/person/created", personDto);
+        Mono<Object> objectMono = tgAuthCallWebClient.doPost("/person/created", personDto);
         PersonDTO actual = (PersonDTO) objectMono.block();
         assertThat(actual).isEqualTo(personDto);
     }
