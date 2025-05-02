@@ -1,5 +1,10 @@
 package ru.checkdev.notification.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 /**
@@ -8,6 +13,10 @@ import javax.persistence.*;
  * @since 0.1
  */
 @Entity(name = "setting")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Setting {
 
     @Id
@@ -19,35 +28,8 @@ public class Setting {
 
     private String value;
 
-    public Setting() {
-    }
-
     public Setting(Key key, String value) {
         this.key = key;
-        this.value = value;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Key getKey() {
-        return key;
-    }
-
-    public void setKey(Key key) {
-        this.key = key;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
         this.value = value;
     }
 
